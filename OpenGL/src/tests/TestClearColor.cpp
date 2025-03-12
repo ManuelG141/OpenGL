@@ -1,11 +1,10 @@
 #include "TestClearColor.h"
 #include "Renderer.h"
-#include "imgui/imgui.h"
 
 namespace test {
 
 	TestClearColor::TestClearColor()
-		: m_ClearColor { 0.2f, 0.3f, 0.8f, 1.0f}
+		: m_ClearColor { 0.14902f, 0.85882f, 0.31372f, 1.0f} // #26DB50FF
 	{
 
 	}
@@ -28,7 +27,9 @@ namespace test {
 
 	void TestClearColor::OnImGuiRender()
 	{
+		ImGui::Begin("Test Clear Color");
 		ImGui::ColorEdit4("Clear Color", m_ClearColor);
+		ImGui::End();
 	}
 
 }
