@@ -23,8 +23,11 @@
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\tests\TestClearColor.cpp" />
+    <ClCompile Include="src\tests\TestSquare.cpp" />
     <ClCompile Include="src\tests\TestTriangle.cpp" />
+    <ClCompile Include="src\tests\TestUniform.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
@@ -41,6 +44,7 @@
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
     <None Include="res\shaders\BasicTriangleShader.shader" />
+    <None Include="res\shaders\BasicUniform.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
     <None Include="src\vendor\glm\detail\func_exponential.inl" />
@@ -187,7 +191,9 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\tests\TestClearColor.h" />
+    <ClInclude Include="src\tests\TestSquare.h" />
     <ClInclude Include="src\tests\TestTriangle.h" />
+    <ClInclude Include="src\tests\TestUniform.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />

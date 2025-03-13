@@ -21,6 +21,8 @@
 
 #include "TestClearColor.h"
 #include "TestTriangle.h"
+#include "TestSquare.h"
+#include "TestUniform.h"
 
 int main(void)
 {
@@ -72,24 +74,42 @@ int main(void)
 		ImGui_ImplGlfw_InitForOpenGL(window, true); // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
 		ImGui_ImplOpenGL3_Init();
 
-		test::TestTriangle test;
+		test::Test* currentTest = nullptr;
+		test::TestMenu* testMenu = new test::TestMenu(currentTest); // TestMenu Instance heap allocated
+		currentTest = testMenu;
+
+		// Add test applications just like this
+		testMenu->RegisterTest<test::TestClearColor>("Clear Color");
+		testMenu->RegisterTest<test::TestTriangle>("Basic Triangle");
+		testMenu->RegisterTest<test::TestSquare>("Basic Square");
+		testMenu->RegisterTest<test::TestUniform>("Basic Uniform");
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))
 		{
 			/* Render here */
+			GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 			renderer.Clear();
-
-			test.OnUpdate(0.0f);
-			test.OnRender();
 
 			// Start the Dear ImGui frame
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
-			test.OnImGuiRender();
-			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+			if (currentTest) // Not null
+			{
+				currentTest->OnUpdate(0.0f);
+				currentTest->OnRender();
+				ImGui::Begin("Test");
+				if (currentTest != testMenu && ImGui::Button("Back to menu")) // If the first two arguments, left to right are false, then the last argument won't be evaluated
+				{
+					delete currentTest;
+					currentTest = testMenu;
+				}
+				currentTest->OnImGuiRender();
+				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+				ImGui::End();
+			}
 
 			// Rendering
 			// (Your code clears your framebuffer, renders your other stuff etc.)
@@ -101,6 +121,9 @@ int main(void)
 			/* Poll for and process events */
 			glfwPollEvents();
 		}
+		delete currentTest;
+		if (currentTest != testMenu)
+			delete testMenu;
 	};
 
 	ImGui_ImplOpenGL3_Shutdown();

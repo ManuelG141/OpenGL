@@ -69,6 +69,15 @@
     <ClCompile Include="src\tests\TestTriangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\tests\TestSquare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tests\TestUniform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -490,6 +499,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="res\shaders\BasicTriangleShader.shader" />
+    <None Include="res\shaders\BasicUniform.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vendor\stb_image\stb_image.h">
@@ -1417,6 +1427,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tests\TestTriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\TestSquare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\TestUniform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
