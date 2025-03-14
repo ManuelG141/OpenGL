@@ -17,6 +17,7 @@ test::TestSquare::~TestSquare()
 {
 	delete m_renderer;
 	delete m_va;
+	delete m_vb;
 	delete m_layout;
 	delete m_ib;
 	delete m_shader;

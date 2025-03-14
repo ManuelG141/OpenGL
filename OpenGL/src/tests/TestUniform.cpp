@@ -1,7 +1,40 @@
 #include "TestUniform.h"
 
-namespace test {
+#include <chrono>
 
+static void updateColors(float m_Color[3], std::atomic_bool& m_SetColorManually, const float m_increment, const int delayTime)
+{
+	int index = 0;
+	while (!m_SetColorManually)
+	{
+		if (index == 0)
+		{
+			m_Color[0] += m_increment;
+			m_Color[2] -= m_increment;
+		}
+		else if (index == 1)
+		{
+			m_Color[1] += m_increment;
+			m_Color[0] -= m_increment;
+		}
+		else
+		{
+			m_Color[2] += m_increment;
+			m_Color[1] -= m_increment;
+		}
+		if (m_Color[0] > 1.0f || m_Color[1] > 1.0f)
+		{
+			index++;
+		}
+		else if (m_Color[2] > 1.0f)
+		{
+			index = 0;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(delayTime));
+	}
+}
+
+namespace test {
 	TestUniform::TestUniform()
 	{
 		m_renderer = new Renderer();
@@ -22,38 +55,17 @@ namespace test {
 		delete m_layout;
 		delete m_ib;
 		delete m_shader;
+
+		if (m_UpdateColorThread.joinable()) // If the thread is still running then destroy it
+		{
+			m_SetColorManually = true; // Finish the while loop inside the thread
+			m_UpdateColorThread.join(); // Wait until the execution of the thread finish
+		}
 	}
 
 	void TestUniform::OnUpdate(float deltaTime)
 	{
-		if (!m_SetColorManually)
-		{
-			static int index = 0;
-			if (index == 0)
-			{
-				m_Color[0] += m_increment;
-				m_Color[2] -= m_increment;
-			}
-			else if (index == 1)
-			{
-				m_Color[1] += m_increment;
-				m_Color[0] -= m_increment;
-			}
-			else 
-			{
-				m_Color[2] += m_increment;
-				m_Color[1] -= m_increment;
-			}
-			if (m_Color[0] > 1.0f || m_Color[1] > 1.0f)
-			{
-				index++;
-			}
-			else if (m_Color[2] > 1.0f)
-			{
-				index = 0;
-			}
-			
-		}
+
 	}
 
 	void TestUniform::OnRender()
@@ -67,13 +79,16 @@ namespace test {
 		ImGui::ColorEdit4("Square Color", m_Color);
 		if (ImGui::Button(m_SetColorManually ? "RGB" : "Manually"))
 		{
-			if (m_SetColorManually)
+			m_SetColorManually = !m_SetColorManually;
+			if (!m_SetColorManually)
 			{
 				m_Color[0] = 0.0f;
 				m_Color[1] = 0.0f;
 				m_Color[2] = 1.0f;
+				m_UpdateColorThread = std::thread{ updateColors, m_Color, std::ref(m_SetColorManually), m_increment, m_DelayTime };
 			}
-			m_SetColorManually = !m_SetColorManually;
+			else
+				m_UpdateColorThread.join();
 		}
 	}
 }

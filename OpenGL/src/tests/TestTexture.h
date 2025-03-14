@@ -8,43 +8,36 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
-
-#include <thread>
-#include <atomic>
+#include "Texture.h"
 
 namespace test {
-
-	class TestUniform : public Test
+	class TestTexture : public Test
 	{
 	public:
-		TestUniform();
-		~TestUniform();
+		TestTexture();
+		~TestTexture();
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender() override;
 		void OnImGuiRender() override;
 	private:
-		const float m_positions[8] = { // Positions of triangle vertices
-			-0.5f, -0.5f,
-			 0.5f, -0.5f,
-			 0.5f,  0.5f,
-			-0.5f,  0.5f
+		const float m_positions[16] = { // Positions of triangle vertices
+			-0.5f, -0.5f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 1.0f
 		};
 		const unsigned int m_indices[6] = {
 			0, 1, 2,
 			2, 3, 0
 		};
-		float m_Color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-		const float m_increment = 0.01f;
-		std::atomic_bool m_SetColorManually = true;
-		std::thread m_UpdateColorThread;
-		const int m_DelayTime = 16; // Milliseconds, ms
 		// I had to heap allocate this classes, so it's possible for me to control their constructing and deleting
 		Renderer* m_renderer;
 		VertexArray* m_va;
 		VertexBuffer* m_vb;
 		VertexBufferLayout* m_layout;
 		IndexBuffer* m_ib;
-		Shader* m_shader;		
+		Shader* m_shader;
+		Texture* m_texture;
 	};
 }

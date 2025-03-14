@@ -23,6 +23,9 @@
 #include "TestTriangle.h"
 #include "TestSquare.h"
 #include "TestUniform.h"
+#include "TestTexture.h"
+#include "TestMath.h"
+#include "TestMultipleObjects.h"
 
 int main(void)
 {
@@ -47,7 +50,7 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	glfwSwapInterval(1); // To activate frame rate
+	glfwSwapInterval(0); // To activate frame rate
 
 	if (glewInit() != GLEW_OK)
 		std::cout << "Error!" << std::endl;
@@ -83,6 +86,9 @@ int main(void)
 		testMenu->RegisterTest<test::TestTriangle>("Basic Triangle");
 		testMenu->RegisterTest<test::TestSquare>("Basic Square");
 		testMenu->RegisterTest<test::TestUniform>("Basic Uniform");
+		testMenu->RegisterTest<test::TestTexture>("Basic Texture");
+		testMenu->RegisterTest<test::TestMath>("Basic Math");
+		testMenu->RegisterTest<test::TestMultipleObjects>("Multiple Objects");
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window))
